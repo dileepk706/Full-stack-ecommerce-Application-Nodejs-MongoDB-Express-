@@ -9,7 +9,7 @@ passport.use(
       {
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL:"/auth/facebook/callback",
+        callbackURL:"https://shopsmart.cloud/profile/auth/facebook/callback",
       },
       async function(accessToken, refreshToken, profile, done) {
          
