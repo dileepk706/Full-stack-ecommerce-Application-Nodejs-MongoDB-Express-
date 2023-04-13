@@ -65,11 +65,11 @@ exports.addProduct = async (req, res) => {
     foundSubcategory.products.push(product._id);
     
     //crop the images 
-    for (const filename of images) {
-    let image = await Jimp.read(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
-    image.crop(100, 50, 612, 612)
-    .write(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
-    }
+    // for (const filename of images) {
+    // let image = await Jimp.read(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
+    // image.crop(100, 50, 612, 612)
+    // .write(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
+    // }
     
     await product.save();
     await category.save();
@@ -141,11 +141,14 @@ exports.editProduct = async (req, res) => {
         category: category.name,
         subcategory: sname,
       }; 
-      for (const filename of images) {
-        let image = await Jimp.read(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
-        image.crop(100, 50, 612, 612)
-        .write(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
-      }
+      
+      //crop the images 
+    for (const filename of images) {
+    let image = await Jimp.read(`D:/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
+    image.crop(100, 50, 612, 612)
+    .write(`D:/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
+    }
+    
     }
     
 
@@ -168,7 +171,7 @@ exports.editProduct = async (req, res) => {
 
 exports.productList=(req,res)=>{
 
-  Product.find({_id:false}).then(
+  Product.find({isDeleted:false}).then(
    products=>{
      return res.render('productListForAdmin',{products})
    }
@@ -198,15 +201,18 @@ exports.deleteProduct=(req,res)=>{
 exports.product_details=async (req,res)=>{
   const id= req.query.id
   try {
-    const productData=await Product.findById({_id:id}) 
+    const product=await Product.findById({_id:id}) 
     const categories=await Category.find()
     const brand=await Brand.find()
-    if(!productData){
+    if(!product){
       return res.status(404).json({message:'product not found'})
     }
 
-    res.status(200).json({productData,categories,brand})
+    // res.status(200).json({productData,categories,brand})
+    res.render('adminUpdateProduct',{product,categories,brand})
+
   } catch (error) {
+    console.log(error);
     res.status(501).json({message:"somthing went wrong"})
   }
 }

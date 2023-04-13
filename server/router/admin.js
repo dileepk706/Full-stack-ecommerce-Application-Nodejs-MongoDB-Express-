@@ -42,7 +42,7 @@ admin_router.get('/category/add_subcategory',adminMidleWare.adminAuth,adminRende
 // admin_router.get('/product/add_product',adminMidleWare.adminAuth,adminRender.addProductForm)
 admin_router.get('/category/add_brand',adminMidleWare.adminAuth,adminRender.addBrand)
 admin_router.get('/login',adminRender.adminLoginPage)
-admin_router.get('/product/updateProduct',adminMidleWare.adminAuth,adminRender.updateProduct)
+// admin_router.get('/product/updateProduct',adminMidleWare.adminAuth,adminRender.updateProduct)
 admin_router.get('/updateCategory',adminMidleWare.adminAuth,adminRender.updateCategory)
 admin_router.get('/',(req,res)=>{
   res.redirect('/admin/login')
@@ -57,7 +57,7 @@ admin_router.get('/logout',adminMidleWare.adminAuth,adminLogin.adminLogout)
 admin_router.get('/view_category' ,adminMidleWare.adminAuth,category.categoryList)
 admin_router.get('/product_list',adminMidleWare.adminAuth,product.productList)
 admin_router.get('/product/add_product',adminMidleWare.adminAuth,category.categoryDetails)
-admin_router.get('/products/edit',adminMidleWare.adminAuth,product.product_details)
+admin_router.get('/product/updateProduct',adminMidleWare.adminAuth,product.product_details)
 admin_router.get('/user_management',adminMidleWare.adminAuth,user_management.get_all_users );
 admin_router.get('/orders',adminMidleWare.adminAuth,orders.get_all_orders)
 admin_router.get('/order',adminMidleWare.adminAuth,orders.order_details)
