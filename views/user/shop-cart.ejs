@@ -1,0 +1,369 @@
+ 
+
+
+<%- include('include/_header')%>
+
+
+
+    <!-- CART TABLE
+        ================================================== -->
+    <section class="md">
+        <div class="container">
+
+            <div class="row">
+
+                <!-- product table -->
+                <div class="col-12 shop-cart-table">
+                    <table class="table shop-cart text-center">
+                        <colgroup>
+                            <col width="100">
+                            <col>
+                            <col width="1">
+                            <col>
+                            <col width="100">
+                            <col width="1">
+                        </colgroup>
+
+                        <thead>
+                            <tr>
+                                <th class="first"></th>
+                                <th class="text-start text-uppercase font-weight-500">Product</th>
+                                <th class="text-start text-uppercase font-weight-500">Price</th>
+                                <th class="text-center text-uppercase font-weight-500">Qty</th>
+                                <th class="text-start text-uppercase font-weight-500">Sub Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <%if(cartData.product.length>0){%>
+                                <% cartData.product.forEach(prdct=> { %>
+
+                                    <tr>
+                                        <td class="product-thumbnail text-start">
+                                            <a href="#"><img src="/public/uploads/<%= prdct.item.image[0] %>"
+                                                    alt="..."></a>
+                                        </td>
+                                        <td class="text-start">
+                                            <a href="#">
+                                                <%= prdct.item.name %>
+                                            </a>
+                                            <!-- <span class="text-uppercase d-block">SKU: 290397</span>
+                                            <a href="#" class="display-31"><i class="fas fa-edit"></i> Edit</a> -->
+                                        </td>
+                                        <td class="text-start">
+                                            <%= prdct.item.price %>
+                                        </td>
+                                        <td class="product-quantity">
+                                            <!-- <input type="text" name="q1" /> -->
+                                            <!-- <button class="btn-primary mr-3">+</button><input type="text" name="q1" /><button>-</button> -->
+                                            <button
+                                                onclick="qty('<%= prdct.item._id %>','<%= prdct.item.price %>',-1,'<%= prdct.item.quantity %>', this.parentNode.querySelector('.quantity-input'), this.parentNode.nextElementSibling)"
+                                                class="btn btn-primary quantity-btn minus-btn">-</button>
+                                            <input type="text" name="q1" class="quantity-input"
+                                                value="<%= prdct.quantity %>" readonly>
+                                            <button
+                                                onclick="qty('<%= prdct.item._id %>','<%= prdct.item.price %>',1,'<%= prdct.item.quantity %>', this.parentNode.querySelector('.quantity-input'), this.parentNode.nextElementSibling)"
+                                                class="btn btn-primary quantity-btn plus-btn">+</button>
+                                        </td>
+
+
+                                        <td class="product-subtotal text-start">
+                                            <%= prdct.sub_total %>
+                                        </td>
+                                        <td class="product-remove text-center">
+                                            <a class="btn " onclick="removeItem('<%=prdct.item._id %>')"><i
+                                                    class="fas fa-times"></i></a>
+                                        </td>
+                                        <!-- href="/viewcart/remove_cart?id=<%=prdct.item._id %>" -->
+                                    </tr>
+
+                                    <% }) %>
+                                        <%}else{%>
+                                            <h2 style="color: red;">Your cart is empty/h2>
+                                                <%}%>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end product table -->
+
+                <!-- button set -->
+
+                <!-- end button set -->
+
+                <!-- total block set -->
+                <div class="col-12 cart-total pt-1-9 pt-lg-2-3">
+                    <div class="row">
+
+                        <div class="col-lg-5 col-md-5 mb-1-9 mb-md-0">
+                            <div id="accordion" class="accordion-style3">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                Coupon Code
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                        data-bs-parent="#accordion">
+                                        <div class="card-body">
+
+
+                                            <div class="row">
+
+                                                <div class="col-sm-12 mb-2">
+
+                                                    <div class="form-group">
+                                                        <label>Enter Your Coupon Code</label>
+                                                        <input type="text" class="form-control" id="couponcode"
+                                                            name="couponcode" placeholder="Enter Your Coupon Code">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <button onclick="applyCoupon()" type="button"
+                                                class="butn-style2 small">Apply Code</button>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                        data-bs-parent="#accordion">
+                                        <div class="card-body">
+
+                                            <form action="#">
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-12 mb-2">
+
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-12 mb-2">
+
+                                                        <div class="form-group">
+                                                            <label>City/State</label>
+                                                            <input type="text" class="form-control" name="city"
+                                                                placeholder="Your city/state name here">
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-12 mb-2">
+
+                                                        <div class="form-group">
+                                                            <label>Zip Code</label>
+                                                            <input type="text" class="form-control" name="zip"
+                                                                placeholder="Your zip code here">
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <button type="button" class="butn-style2 small">Update Totals</button>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6 offset-lg-1 col-md-7 offset-md-0">
+                            <table class="table cart-sub-total">
+                                <tbody>
+                                    <tr>
+                                        <%if(cartData.expiryDate > new Date()&& cartData.minimum_cart_requirement <= cartData.total_amount){%>
+                                            <th class="text-end pe-0 text-uppercase">Cart Subtotal</th>
+                                            <td class="text-uppercase text-end pe-0" id="totalAmt"><%= cartData.total_amount + cartData.discountAmount %></td>
+                                            <%}%>
+                                            
+                                        </tr>
+                                    <tr>
+                                        <th class="text-end pe-0 text-uppercase">Shipping and Handling</th>
+                                        <td class="text-uppercase text-end pe-0">Free</td>
+                                    </tr>
+
+                                    <%if(cartData.discountAmount ){%>
+                                        <tr>
+                                            <th class="text-end pe-0 text-uppercase">
+                                                Coupon Discout
+                                                <br>
+                                                <%if(cartData.expiryDate> new Date()){%>
+                                                    <p style="font-size: 10px; color: orangered;">A minimum cart total
+                                                        of Rs.<%=cartData.minimum_cart_requirement%> is required</p>
+                                                    <%}else{%>
+                                                        <p style="font-size: 10px; color: orangered;">Coupon expired</p>
+                                                        <%}%>
+
+                                            </th>
+                                            <td class="text-uppercase text-end pe-0"
+                                                style="color: green;font-size: 25px;">₹<%=cartData.discountAmount%>
+                                            </td>
+                                        </tr>
+                                        <%}else{%>
+                                            <th class="text-end pe-0 text-uppercase">Use Coupon for discount </th>
+                                            <%}%>
+
+                                                <tr>
+                                                    <td class="pe-0 p-0" colspan="2">
+                                                        <hr>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="total">
+                                                    <th class="text-uppercase text-end pe-0 p-0">Cart Total Amount </th>
+                                                    <td style="font-size: 39px; ;" id="totalCartAmount"
+                                                        class="text-uppercase  text-end pe-0 p-0 ml-1">
+                                                        <%= cartData.total_amount%>
+                                                    </td>
+
+                                                </tr>
+
+                                </tbody>
+                            </table>
+                            <a class="butn-style2 float-end" href="/checkout-address"><span>Proceed to
+                                    Checkout</span></a>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end total block set -->
+
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+
+        function applyCoupon() {
+            console.log('reached');
+            const couponcode = document.querySelector('#couponcode').value;
+            const totalCartAmount = document.querySelector('#totalCartAmount').textContent;
+
+
+            fetch(`/applycoupon`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    couponCode: couponcode,
+                    totalCartAmount: totalCartAmount.trim()
+                })
+            })
+                .then(res => res.json()
+                    .then(data => {
+            console.log('data');
+
+                        // if(data.message=='invalied Coupon'||data.message=='Coupon code has expired'||data.message=='Coupon code has expired')
+                        if (res.status === 400) {
+            console.log('errer');
+
+                            swal.fire({
+                                title: 'Error',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+            console.log('sucsess');
+
+                            swal.fire({
+                                title: 'Success',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(result=>{
+                                if(result.isConfirmed){
+                                    window.location.href='/viewcart'
+
+                                }
+                            });
+                        }
+
+                    }))
+                .catch(error => {
+                    swal.fire({
+                        title: 'Error',
+                        text: error.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        }
+
+
+
+        function removeItem(pdct_id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, remove it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/viewcart/remove_cart?id=${pdct_id}`, {
+                        method: 'DELETE',
+                    }).then(response => response.json()).then(data => {
+                        window.location.href = '/viewcart'
+                    }).catch(err => {
+                        alert('something went wrong')
+                    })
+                }
+            })
+        }
+
+
+
+        function qty(id, price, q, prdctQty, input, subtotal) {
+            console.log(id, q, price);
+            fetch(`/cart_qty?prdctId=${id}&&val=${q}&&price=${price}&&productQty=${prdctQty}`, {
+                method: 'GET',
+            }).then(response => response.json()).then(data => {
+                console.log(data);
+                let newQty = data.qty < 1 ? 1 : data.qty;
+                input.value = newQty;
+                input.value = data.qty;
+                subtotal.innerHTML = data.sub_total;
+                const totalElement = document.querySelector('.text-uppercase.text-end.pe-0.p-0.ml-1');
+                totalElement.innerHTML = data.total;
+                const nonCoupenAmt = document.querySelector('#totalAmt');
+                // nonCoupenAmt.innerHTML = data.total+data.dicount;
+                // console.log(data.total);
+            }).catch(err => {
+                alert(err)
+            })
+        }
+
+    </script>
+
+
+
+    <%- include('include/_footer')%>

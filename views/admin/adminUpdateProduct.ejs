@@ -1,0 +1,216 @@
+ 
+<%- include('include/_header')%>
+
+<%- include('include/_sideBar')%>
+ 
+<style>
+    div.previewImages > img {
+      width: 30%;
+    }
+  </style>
+<div class="page-inner">
+
+    <!-- PAGE MAIN WRAPPER
+    ================================================== -->
+    <div id="main-wrapper">
+        <!-- row -->
+        <div class="row g-xl-3">
+            <div class="col-xl-8 grid-margin">
+                <div class="card card-white mb-3">
+                    <div class="card-heading clearfix">
+                        <h4 class="card-title">Product information</h4>
+                        <h5 class="card-title mt-3 mb-2" style="color: red;" id="error"> </h5>
+
+                    </div>
+                    <div class="card-body">
+
+                        <!-- <form method="POST" enctype="multipart/form-data" action="/admin/product/add_product"> -->
+
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="validationCustom01">Name</label>
+                                    <input name="name" type="text" class="form-control" id="name" value="<%=product.name%>"   >
+                                </div>
+                                <input id="prdct_id" type="text" hidden value="<%=product._id%>" >
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="validationCustom01">Discription</label>
+                                     <textarea class="form-control" id="description" name="description"  ><%= product.description%></textarea>
+
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom02">Price</label>
+                                    <input type="number" class="form-control" id="validationCustom02" name="price" value="<%= product.price%>"   >
+                                     
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom03">QTY</label>
+                                    <input type="number" name="quantity" class="form-control" value="<%= product.quantity%>" id="quantity"  >
+                                    
+                                </div>
+                                 
+                            </div>
+
+                    </div>
+                </div>
+                <div class="card card-white mb-3">
+                    <div class="card-heading clearfix">
+                        <h4 class="card-title">Image/  only jpg or jpeg or png format</h4>
+                        <p>image will be cropped at server (612*612 pixel)</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="file" class="form-control-file" id="image" name="image" multiple  >
+                                    <!-- <input class="form-control form-control-lg" id="formFileLg" type="file"> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                      <div class="previewImages m1"></div>
+                    </div>
+                </div>
+
+                <p>current images</p>
+                <% for(let i=0;i < product.image.length; i++) { %>
+
+                    <div class="row" >
+                        <div class="col-sm-12" >
+                          <img class="mt-1" width="10%" src="/public/uploads/<%= product.image[i]%>" alt="">
+                        </div>
+                    </div>
+                    <%}%>
+                
+
+
+                <div class="card card-white">
+                    <div class="card-heading clearfix">
+                        <h4 class="card-title">Select Category and Brand</h4>
+                    </div>
+                  
+
+                    <div class="card-body">
+                        
+                        <label for="validationCustom06">Categories</label>
+                        <select name="sname" class="form-select form-control" id="sname" aria-label="Default select example">
+                          
+                            <% categories.forEach(category => { %>
+                                <% category.subcategories.forEach(subcategry => { %>
+                                    <option value="<%= subcategry.name %>" <% if (subcategry.name === product.subcategory) { %>selected<% } %>><%= subcategry.name %></option>
+ 
+                                    <% }) %>
+                                <% }) %>
+                        </select>
+                   
+
+                </div>
+
+                <div class="card-body mt-3">
+
+                        
+                    <label for="validationCustom06">Brand</label>
+                    
+                    <select name="brand_name" class="form-select form-control" id="brand_name" aria-label="Default select example">
+                         
+                        <% brand.forEach(brand_name => { %>
+                            <option value="<%= brand_name.name %>" <% if (brand_name.name === product.brand_name) { %>selected<% } %>><%= brand_name.name %></option>
+
+                            <% }) %>
+                    </select>
+               
+
+            </div>
+            <button onclick="editProduct()" class="btn btn-primary mt-5">Add Product</button>
+
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+
+       <script>
+
+$(document).ready(function() {
+        let imgPreview = function(input, imgaePlace) {
+          if (input.files) {
+            let allFiles = input.files.length;
+            for (i = 0; i < allFiles; i++) {
+              let reader = new FileReader();
+              reader.onload = function(event) {
+                $($.parseHTML("<img>"))
+                  .attr("src", event.target.result)
+                  .appendTo(imgaePlace);
+              };
+              reader.readAsDataURL(input.files[i]);
+            }
+          }
+        };
+        $("#image").on("change", function() {
+          imgPreview(this, "div.previewImages");
+        });
+      });
+
+
+      const editProduct = async () => {
+      const name = document.getElementById("name").value;
+      const description = document.getElementById("description").value;
+      const price = parseInt(document.getElementById("validationCustom02").value);
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const sname = document.getElementById("sname").value;
+      const brand_name = document.getElementById("brand_name").value;
+      const image = document.getElementById("image").files;
+      const id=document.getElementById("prdct_id").value
+    
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("quantity", quantity);
+      formData.append("sname", sname);
+      formData.append("brand_name", brand_name);
+      formData.append("id", id);
+
+    
+      for (let i = 0; i < image.length; i++) {
+        formData.append("image", image[i]);
+      }
+    
+      try {
+        const response = await fetch("/admin/product/edit_product", {
+          method: "PUT",
+          body: formData,
+        });
+        const data = await response.json();
+    
+        if (response.ok) {
+            swal.fire({
+                title: 'Success', 
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+                }).then(result=>{
+                if(result.isConfirmed){
+                 window.location.reload()
+    
+                }
+                });
+    
+        } else {
+            document.querySelector('#error').innerHTML=data.message
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+       </script>   
+             
+   
+            
+  <%- include('include/_footer')%>

@@ -1,0 +1,85 @@
+<%- include('include/_header')%>
+
+<%- include('include/_sideBar')%>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cropper.js Demo</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div ><ol>
+        <li>
+            select the image which you want to crop
+        </li>
+        <li>
+            crop the image
+        </li>
+        <li>
+            click the CROP button 
+        </li>
+        <li>
+            click the Download button
+        </li>
+    </ol></div>
+    <input class="btn btn-primary m-2" type="file" id="image" />
+    <button class="btn btn-success m-2" id="crop">Crop</button>
+    <a id="download" class="btn btn-secondary " download="cropped_image.jpeg" href="">Download</a>
+    <center>
+      <div style="width: 50%;height: 500px;">
+        <img style="width: 100%;" id="preview" />
+      </div>
+    </center>
+    
+
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <script src="./index.js"></script>
+    <script>
+      const image = document.getElementById("image");
+const preview = document.getElementById("preview");
+const cropBtn = document.getElementById("crop");
+const downloadBtn = document.getElementById("download");
+
+let cropper = null;
+
+image.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = (event) => {
+    const url = event.target.result;
+    preview.src = url;
+
+    if (cropper) {
+      cropper.destroy();
+    }
+
+    cropper = new Cropper(preview, {
+      aspectRatio: 1,
+      viewMode: 1,
+    });
+  };
+});
+
+cropBtn.addEventListener("click", () => {
+  const canvas = cropper.getCroppedCanvas();
+  canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    downloadBtn.href = url;
+  });
+});
+
+    </script>
+  </body>
+</html>
+
+
+<%- include('include/_footer')%>

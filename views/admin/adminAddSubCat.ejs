@@ -1,0 +1,80 @@
+
+<%- include('include/_header')%>
+
+<%- include('include/_sideBar')%>
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 style="margin-top: 10px;margin-left: 20px;">Add Sub-Category</h1>
+                <p style="margin-top: 10px;margin-left: 20px;" >under <%= name %></p>
+            </div>
+        </div>
+          <h6 id="error" style="color: red;"> </h6>                  
+        <div class="row">
+            <div class="col-md-12">
+              <!-- <form action="/admin/category/update_category" method="post"> -->
+                <input type="text" class="form-control" id="pname" name="parentCategory"   value="<%= name %>" hidden>
+                <div class="form-group">
+                    <label class="ml-5" for="name">Sub_Category Name</label>
+                    <input type="text" class="form-control ml-5" id="sname" name="subCategory" placeholder="Enter subcategory name"  >
+                  </div>
+                
+                <button onclick="addSubcat()" class="btn btn-primary ml-5">Add  SubCategory</button>
+              <!-- </form> -->
+            </div>
+          </div>
+
+    </div>
+</div>
+
+<script>
+  async function addSubcat(){
+      const parentCategory=document.querySelector('#pname').value
+      const subCategory=document.querySelector('#sname').value
+      
+      let formData=new FormData()
+      formData.append('parentCategory',parentCategory)
+      formData.append('subCategory',subCategory)
+       
+      try { 
+     
+
+      const response = await fetch("/admin/category/update_category", {
+        method: "PUT",
+         
+        headers:{
+          "content-type":"application/json"
+      },
+      body:JSON.stringify({
+        parentCategory: parentCategory,
+        subCategory:subCategory,
+      })
+      
+      });
+
+      const data = await response.json();
+  
+      if (response.ok) {
+          swal.fire({
+              title: 'Success',
+              text: data.message,
+              icon: 'success',
+              confirmButtonText: 'OK'
+              }).then(result=>{
+              if(result.isConfirmed){
+               window.location.href='/admin/view_category'
+              }
+              });
+  
+      } else {
+          document.querySelector('#error').innerHTML=data.message
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+   
+</script>
+<%- include('include/_adminFooter')%>

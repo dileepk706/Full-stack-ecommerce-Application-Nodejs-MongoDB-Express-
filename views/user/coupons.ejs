@@ -1,0 +1,92 @@
+<%- include('include/_header')%>
+ 
+
+<!-- ACCOUNT TICKETS
+================================================== -->
+<section class="md">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <!-- left panel -->
+            <div class="col-lg-4 col-sm-9 mb-2-3 mb-lg-0">
+
+                <div class="account-pannel">
+
+                    <div class="p-4">
+
+                        <div class="text-center">
+                             
+                            <h6 class="mb-0 display-28"><%=user._doc.name%></h6>
+                            <small>Joined <%=user.createdAt%></small>
+                            <div class="reward-points">
+                                <i class="ti-star text-primary pe-1"></i>Wallet Amount : <%=user._doc.wallet%>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <a class="list-group-items" href="/myorders"><i class="ti-bag pe-2"></i>Orders<span class="badge badge-pill">6</span></a>
+                        <a class="list-group-items " href="/profile"><i class="ti-user pe-2"></i>Profile</a>
+                        <a class="list-group-items" href="/address"><i class="ti-location-pin pe-2"></i>Addresses</a>
+                        <a class="list-group-items" href="/wishlist"><i class="ti-heart pe-2"></i>Wishlist<span class="badge badge-pill">3</span></a>
+                        <a class="list-group-items active" href="/coupon"><i class="ti-tag pe-2"></i>Coupon<span class="badge badge-pill">4</span></a>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- end left panel -->
+
+            <!-- right panel -->
+            <div class="col-lg-8">
+
+                <div class="common-block">
+
+                    <div class="inner-title">
+                        <h4 class="mb-0">Available Coupons..</h4>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Coupon Code</th>
+                                    <th>Discount Type</th>
+                                    <th>Coupon amount</th>
+                                    <th>Minimum redeem</th>
+                                    <th>remaining coupon</th>
+                                    <th>Expiry Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%coupon.forEach(data=>{%>
+                                <tr>
+                                    <td><%=data.couponCode%></td>
+                                    <td><%=data.discountType%></td>
+                                    <%if(data.discountType=='percent'){%>
+                                    <td><%=data.couponAmount%>%</td>
+                                    <%}else{%>
+                                        <td><%=data.couponAmount%></td>
+                                        <%}%>
+                                    <td><span class=""><%=data.minRedeemAmount%></span></td>
+                                    <td><span class=""><%=data.quantity%></span></td>
+                                    <%if(data.expiryDate < new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: '2-digit' }) ){%>
+                                    <td><span class="">Coupon expired</span></td>
+                                        <%}else{%>
+                                    <td><span class="text-warning"><%=data.expiryDate%></span></td>
+                                            <%}%>
+                                </tr>
+                                <%})%>
+                                  
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- end right panel -->
+        </div>
+    </div>
+</section>
+<%- include('include/_footer')%>
