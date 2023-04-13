@@ -43,9 +43,10 @@ const render=require('./server/render/user/render')
 const userRouter = require ('./server/router/user');
 const adminRouter=require('./server/router/admin')
 //dataBaseConection
-mongoose.connect('mongodb://127.0.0.1:27017/amarkart')
+
+mongoose.connect(process.env.MONGO_URI)
 .then(response=>{
- console.log('mongodb onnected');
+ console.log('mongodb Connected');
 }).catch(err=>{
  console.log(`error happened when connecting mongodb : ${err}`);
 })
