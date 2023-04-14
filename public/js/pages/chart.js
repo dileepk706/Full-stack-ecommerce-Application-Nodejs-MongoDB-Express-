@@ -2,7 +2,7 @@
 $(document).ready(function() {
     "use strict";
     
-	fetch('http://localhost:3000/admin/dashboardLineChart',{
+	fetch('https://shopsmart.cloud/admin/dashboardLineChart',{
 		method:'GET'
 	}).then(response=>response.json()).then(data=>{
 		console.log(data);
