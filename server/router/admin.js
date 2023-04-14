@@ -51,11 +51,16 @@ admin_router.get('/',(req,res)=>{
 
 
 
-
+const Product=require('../model/product/product')
 
 admin_router.get('/logout',adminMidleWare.adminAuth,adminLogin.adminLogout)
 admin_router.get('/view_category' ,adminMidleWare.adminAuth,category.categoryList)
-admin_router.get('/product_list',adminMidleWare.adminAuth,product.productList)
+admin_router.get('/product_list',adminMidleWare.adminAuth,async (req,res)=>{
+  const products=await Product.find()
+  console.log(products);
+  res.render('productListForAdmin', { products });
+
+})
 admin_router.get('/product/add_product',adminMidleWare.adminAuth,category.categoryDetails)
 admin_router.get('/product/updateProduct',adminMidleWare.adminAuth,product.product_details)
 admin_router.get('/user_management',adminMidleWare.adminAuth,user_management.get_all_users );
