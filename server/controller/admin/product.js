@@ -169,22 +169,17 @@ exports.editProduct = async (req, res) => {
   }
 };
 
-exports.productList=(req,res)=>{
+exports.productList = async (req, res) => {
+  try {
+    const products = await Product.find({ isDeleted: false });
+    return res.render('productListForAdmin', { products });
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+     
+  }
+};
 
-  Product.find({isDeleted:false}).then(
-   products=>{
-     return res.render('productListForAdmin',{products})
-   }
-  ).catch(
-   err=>{
-    console.log(err); 
-    res.send(err)
-    // return res.render('500')
-    //  res.status(401).send({messege: 'somthing went wrong '+ err})
-   }
-  )
- 
-}
 
 exports.deleteProduct=(req,res)=>{
   const _id=req.query.id
