@@ -77,7 +77,7 @@ exports.addProduct = async (req, res) => {
    
   } catch (error) {
     console.log('error = '+error);
-    res.status(400).json({message:'the image dimension not be less than 612x612',error})
+    res.status(400).json({message:error})
     return
   }
 };
