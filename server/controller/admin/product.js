@@ -66,10 +66,10 @@ exports.addProduct = async (req, res) => {
     
     //crop the images 
     for (const filename of images) {
-    let image = await Jimp.read(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
-    image.crop(100, 50, 612, 612)
-    .write(`/Users/User/Desktop/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
-    }
+      let image = await Jimp.read(`D:/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
+      image.crop(100, 50, 612, 612)
+      .write(`D:/shopSmart-ecommerce-node-mongoDb/public/uploads/${filename}`);
+      }
     
     await product.save();
     await category.save();
