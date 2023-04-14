@@ -178,7 +178,8 @@ exports.productList=(req,res)=>{
   ).catch(
    err=>{
     console.log(err);
-    return res.render('500')
+    res.send(err)
+    // return res.render('500')
     //  res.status(401).send({messege: 'somthing went wrong '+ err})
    }
   )
