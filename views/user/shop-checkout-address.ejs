@@ -261,7 +261,7 @@ aria-hidden="true">
              break;
            }
          }
-         fetch(`http://localhost:3000/checkout-address-save?address=${selectedAddress}`, {
+         fetch(`/checkout-address-save?address=${selectedAddress}`, {
            method: 'GET',
          })
          .then(responce=>responce.json()).then(data=>{
