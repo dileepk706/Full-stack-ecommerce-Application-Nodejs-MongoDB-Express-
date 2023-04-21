@@ -317,7 +317,7 @@
         <script>
             function add_wishlist(prdctId){
     
-                fetch(`http://localhost:3000/wishlist?prdctId=${prdctId}`,{
+                fetch(`/wishlist?prdctId=${prdctId}`,{
                     method:'PUT'
                 }).then(response=>response.json()).then(data=>{
                     swal(data.message); 

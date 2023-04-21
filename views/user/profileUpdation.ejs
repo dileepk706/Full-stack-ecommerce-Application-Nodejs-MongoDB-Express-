@@ -1,0 +1,49 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+ </head>
+ <body>
+    <input type="text" class="form-control" id="name" value="<%= userData.name%>"  >
+    <input type="email" class="form-control" id="email" value="<%= userData.email%>"  >
+    <input type="text" class="form-control" id="phone" value="<%= userData.phone%>"  >
+    <button onclick="updateProfile('<%= userData.phone%>')">update</button>
+
+    <script>
+        async function updateProfile(id){
+    
+            const name=document.querySelector('#name').value
+            const email=document.querySelector('#email').value
+            const phone=document.querySelector('#phone').value
+    
+            console.log(name,email,phone);
+    
+            try {
+                const res=await fetch(`/update_profile/${id}`,{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    name:name,
+                    email:email,
+                    phone:phone
+                })
+            })
+            const data=await res.json()
+            if(res.status===200){
+                alert(data.message)
+            }else{
+                
+            }
+            } catch (error) {
+                console.log(error);
+            }
+            
+        }
+    </script>
+ </body>
+ 
+ </html>
+

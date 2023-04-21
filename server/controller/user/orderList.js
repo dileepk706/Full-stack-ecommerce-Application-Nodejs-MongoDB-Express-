@@ -55,14 +55,19 @@ exports.get_all_orders=(req,res)=>{
   }
 
 exports.getOneOrder = async (req, res) => {
-  const id = req.query.id
-  console.log(id);
-  const ordPrdct = await Order.findById({ _id: id }).populate({
-    path: 'items.item',
-    model: 'product'
+  try {
+    const id = req.query.id
+    const ordPrdct = await Order.findById({ _id: id }).populate({
+      path: 'items.item',
+      model: 'product'
   })
   // console.log(ordPrdct);
   res.render('singleorder', { ordPrdct })
+  } catch (error) {
+    console.log(error);
+    res.render('500')
+  }
+  
 }
 
 

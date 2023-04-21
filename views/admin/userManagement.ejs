@@ -126,7 +126,7 @@
               }).then((result) => {
                 if (result.isConfirmed) {
 
-                    fetch(`http://localhost:3000/admin/user_action?action=${val}&_id=${id}`,{
+                    fetch(`/admin/user_action?action=${val}&_id=${id}`,{
                         method:'PATCH'
                     }).then(response=>response.json()).then(data=>{
                         alert(data.message)

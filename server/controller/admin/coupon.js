@@ -6,7 +6,6 @@ exports.couponForm=(req,res)=>{
 
 exports.createCoupon=async (req,res)=>{
 
-console.log('came');
   try {
     const {
       couponCode,

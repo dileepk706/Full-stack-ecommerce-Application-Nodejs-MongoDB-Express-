@@ -163,6 +163,15 @@ router.put('/admin/updatesubcategory',async (req,res)=>{
 
 
 
+router.get('/update_profile/:email',async(req,res)=>{
+
+  const userData=await User.findOne({email:req.params.email},{name:1,email:1,phone:1})
+console.log(userData);
+  res.render('profileUpdation',{userData})
+return
+
+})
+
 
 
 

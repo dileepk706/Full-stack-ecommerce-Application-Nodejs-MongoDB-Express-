@@ -44,13 +44,19 @@ const userRouter = require ('./server/router/user');
 const adminRouter=require('./server/router/admin')
 //dataBaseConection
 
-mongoose.connect(process.env.MONGO_URI)
+// mongoose.connect(process.env.MONGO_URI)
+// .then(response=>{
+//  console.log('mongodb Connected');
+// }).catch(err=>{
+//  console.log(`error happened when connecting mongodb : ${err}`);
+// })
+
+mongoose.connect("mongodb://localhost:27017")
 .then(response=>{
  console.log('mongodb Connected');
 }).catch(err=>{
  console.log(`error happened when connecting mongodb : ${err}`);
 })
-
 
 
 

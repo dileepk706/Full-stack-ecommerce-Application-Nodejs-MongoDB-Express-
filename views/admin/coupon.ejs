@@ -147,7 +147,7 @@ const quantity = document.querySelector('#quantity').value;
 
   console.log(couponCode);
 
-  fetch('http://localhost:3000/admin/addcoupons', {
+  fetch('/admin/addcoupons', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
