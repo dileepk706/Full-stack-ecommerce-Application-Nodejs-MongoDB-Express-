@@ -61,7 +61,7 @@ router.post('/login',userAccount.userlogin)
 router.get('/logout', userAccount.userLogout)
 
 //home page
-router.get('/',userMidleWare.requireUserAuth,userHome.userHome)
+router.get('/',userHome.userHome)
 
 // forgot pasword
 router.get('/forgot_password',userAccount.forgot_page)
@@ -70,28 +70,28 @@ router.post('/forgot_password',userAccount.token_send)
 router.post('/reset-password',userAccount.pass_reset)
 
 //show orders, cancell orders...etc
-router.get('/myorders',orderList.get_all_orders)
-router.get('/return',orderList.return_order)
+router.get('/myorders',userMidleWare.requireUserAuth,orderList.get_all_orders)
+router.get('/return',userMidleWare.requireUserAuth,orderList.return_order)
 router.delete('/myorders/cancelorder',orderList.cancel_order)
-router.get('/order',orderList.getOneOrder)
+router.get('/order',userMidleWare.requireUserAuth,orderList.getOneOrder)
 router.get('/downloadOrdInvoice/:id',orderList.downLoadInvoice)
 
 
 
 //wishlist
-router.get('/wishlist',wishlist.get_wishlist)
+router.get('/wishlist',userMidleWare.requireUserAuth,wishlist.get_wishlist)
 router.put('/wishlist',wishlist.add_wishlist)
 router.delete('/wishlist/remove_allitem',wishlist.dlt_wishlist_single_item)
 router.delete('/wishlist/removeitem',wishlist.clear_wishlist)
 
 //checkout
-router.get('/checkout-address',checkout.checkout_adress)
-router.get('/checkout-address-save',checkout.save_address)
-router.get('/checkout-payment',nocache(),checkout.checkout_payment)
+router.get('/checkout-address',userMidleWare.requireUserAuth,checkout.checkout_adress)
+router.get('/checkout-address-save',userMidleWare.requireUserAuth,checkout.save_address)
+router.get('/checkout-payment',userMidleWare.requireUserAuth,nocache(),checkout.checkout_payment)
 // router.get('/checkout-review',nocache(),checkout.checkout_review)
 router.post('/place-order',checkout.checkout_complete)
 router.post('/verify-payment',checkout.veryfy_payment)
-router.get('/ordersuccess', cart.order_success)
+router.get('/ordersuccess',userMidleWare.requireUserAuth, cart.order_success)
 
 //user profile
 router.get('/address',userMidleWare.requireUserAuth,userProfile.showAddress)
@@ -105,7 +105,7 @@ router.delete('/viewcart/remove_cart',cart.remove_item)
 
 //coupon
 router.post('/applycoupon', userCoupon.applyCoupon)
-router.get('/coupon',userCoupon.getCoupons)
+router.get('/coupon',userMidleWare.requireUserAuth,userCoupon.getCoupons)
 
 
 const Product=require('../model/product/product')

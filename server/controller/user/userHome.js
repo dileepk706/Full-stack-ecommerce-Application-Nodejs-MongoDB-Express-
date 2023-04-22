@@ -5,15 +5,17 @@ const Banner=require('../../model/banner/banner')
 exports.userHome=async(req,res)=>{
 
   try {
+    let isLogin=true
     const categories= await Category.find({isDeleted:false})
-    console.log(categories);
-        const banner=await Banner.find() 
-          
-        const mobiles=await Product.find({isDeleted:false,subcategory:'mobiles'}).limit(5)
-        const headphones=await Product.find({isDeleted:false,brand_name:'Apple'}).limit(5)
+    const banner=await Banner.find() 
+    const mobiles=await Product.find({isDeleted:false,subcategory:'mobiles'}).limit(5)
+    const headphones=await Product.find({isDeleted:false,brand_name:'Apple'}).limit(5)
 
+    if(!req.session.user){
+      isLogin=false
+    }
         // res.render('userHmome', { categories,mobiles,headphones:null,banner});
-        res.render('homePage', { categories,mobiles,headphones,banner});
+        res.render('homePage', { categories,mobiles,headphones,banner,isLogin});
   } catch (error) {
     console.log(error);
   }

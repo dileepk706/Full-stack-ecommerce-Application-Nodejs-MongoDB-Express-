@@ -74,7 +74,7 @@
                     confirmButtonText: 'Yes, remove it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch('http://localhost:3000/wishlist/remove_allitem',{
+                        fetch('/wishlist/remove_allitem',{
                             method:'DELETE'
                         }).then(response=>response.json()).then(data=>{
                             alert(data.message)
@@ -98,7 +98,7 @@
                     confirmButtonText: 'Yes, remove it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`http://localhost:3000/wishlist/removeitem?prdctId=${prdctId}`,{
+                        fetch(`/wishlist/removeitem?prdctId=${prdctId}`,{
                     method:'DELETE',
                 }).then(response=>response.json()).then(data=>{
                     alert(data.message)

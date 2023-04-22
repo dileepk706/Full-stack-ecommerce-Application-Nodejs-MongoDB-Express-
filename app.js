@@ -3,13 +3,8 @@ const express=require('express');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const path = require('path');
-const axios = require('axios');
-const ejs=require('ejs')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const methodOverride = require('method-override');
-const morgan = require('morgan')
-const twilioRouter=require('./server/router/twilio-sms')
 const passport=require('passport')
 const app=express();
 
@@ -44,19 +39,14 @@ const userRouter = require ('./server/router/user');
 const adminRouter=require('./server/router/admin')
 //dataBaseConection
 
-// mongoose.connect(process.env.MONGO_URI)
-// .then(response=>{
-//  console.log('mongodb Connected');
-// }).catch(err=>{
-//  console.log(`error happened when connecting mongodb : ${err}`);
-// })
-
-mongoose.connect("mongodb://localhost:27017")
+mongoose.connect(process.env.MONGO_URI)
 .then(response=>{
  console.log('mongodb Connected');
 }).catch(err=>{
  console.log(`error happened when connecting mongodb : ${err}`);
 })
+
+ 
 
 
 
@@ -77,27 +67,7 @@ app.use('/admin',adminRouter)
 
 
 
-// app.get('/', async (req, res) => {
-//     try {
-//       const response = await axios.get('http://localhost:3000/admin/show');
-//       const products = response.data.data;
-//       const user=response.data.user
-//       const brand=response.data.brand
-//       user.forEach(element => {
-//         console.log(element.username);
-//       });
-//       console.log(user,brand);
-//       // products.forEach(element => {
-//       //   element.image.forEach(o=>{
-//       //       console.log(o);
-//       //   })
-//       // });
-//       res.render('userHmome', { products,user,brand });
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send('Internal Server Error' + error.data);
-//     }
-//   });
+ 
 
 //404 page not found page
 app.use((req, res, next) => {
