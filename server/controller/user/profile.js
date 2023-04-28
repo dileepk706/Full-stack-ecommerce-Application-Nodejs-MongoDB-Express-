@@ -5,23 +5,30 @@ const Cart=require('../../model/cart/cart')
 const User=require('../../model/user/user')
 
 exports.showProfile=(req,res)=>{
-
+  let isLogin=true
+  if(!req.session.user){
+    isLogin=false
+  }
     const userId=req.session.user
     User.findById({_id:userId}).then(userData=>{
       // console.log(userData);
-      res.render('userProfile',{userData})
+      res.render('userProfile',{userData,isLogin})
   
     })
 }
 
 exports.showAddress=(req,res)=>{
 
+  let isLogin=true
+  if(!req.session.user){
+    isLogin=false
+  }
     const userId=req.session.user
     User.findById({_id:userId}).then(userData=>{
   
       const address=userData.address
   
-      res.render('userAddress',{userData,address})
+      res.render('userAddress',{userData,address,isLogin})
   
     })
 }

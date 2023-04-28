@@ -6,11 +6,14 @@ const Order=require('../../model/order/order')
 
 
 exports.product_details = (req, res) => {
-
+  let isLogin=true
+  if(!req.session.user){
+    isLogin=false
+  }
   const id = req.query.id
   Product.findOne({ _id: id }).then(product => {
     // console.log(product);
-    res.render('product_detail', { product })
+    res.render('product_detail', { product,isLogin })
   })
 }
 
@@ -18,6 +21,11 @@ exports.show_cart = async (req, res) => {
   try {
     const prdct_id = req.query.product
     const user_id = req.session.user
+    let isLogin=true
+    if(!req.session.user){
+      isLogin=false
+    }
+    
 
     let cartData = await Cart.findOne({ user_id }).populate('product.item')
 
@@ -44,7 +52,7 @@ exports.show_cart = async (req, res) => {
         cartData.total_amount = cartTotal
         await cartData.save()
       }
-      res.render('shop-cart', { cartData })
+      res.render('shop-cart', { cartData ,isLogin})
     } else {
       const productData = await Product.findById(prdct_id)
 

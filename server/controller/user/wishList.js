@@ -3,11 +3,14 @@ const Product=require('../../model/product/product')
 
 exports.get_wishlist=(req,res)=>{
     const _id = req.session.user;
-  
+    let isLogin=true
+    if(!req.session.user){
+      isLogin=false
+    }
     User.findById({ _id: _id }).populate('wishlist') 
       .then(data => {
         const sortedWishlist = data.wishlist.sort((a, b) => b._id - a._id);
-        res.render('wishlist', { data: { wishlist: sortedWishlist } });
+        res.render('wishlist', { data: { wishlist: sortedWishlist },isLogin });
       });
     
   }

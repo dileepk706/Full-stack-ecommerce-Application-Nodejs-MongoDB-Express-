@@ -2,6 +2,11 @@ const Order=require('../../model/order/order')
 const Product=require('../../model/product/product')
 
 exports.get_all_orders=(req,res)=>{
+
+  let isLogin=true
+    if(!req.session.user){
+      isLogin=false
+    }
     const user_id=req.session.user
     Order.find({user:user_id})
     .populate({
@@ -9,7 +14,7 @@ exports.get_all_orders=(req,res)=>{
       model: 'product'
     }).sort({createdAt:-1})
     .then((orders)=> {
-      res.render('myOrders',{orders})
+      res.render('myOrders',{orders,isLogin})
       orders.forEach(g=>{
         console.log(g);
 
